@@ -176,6 +176,10 @@
 #define VOD_DASH_MANIFEST_FOOTER												\
 	"</MPD>\n"
 
+// Role Template
+#define VOD_DASH_MANIFEST_ROLE                                                  \
+    "      <Role schemeIdUri=\"urn:mpeg:dash:role:2011\" value=\"%V\"/>\n"
+
 #define MAX_TRACK_SPEC_LENGTH (sizeof("f-v-p") + 3 * VOD_INT32_LEN)
 #define MAX_CLIP_SPEC_LENGTH (sizeof("c-") + VOD_INT32_LEN)
 #define MAX_INDEX_SHIFT_LENGTH (sizeof("i-") + VOD_INT32_LEN)
@@ -802,6 +806,9 @@ dash_packager_write_mpd_period(
 					adapt_id++, 
 					lang_get_rfc_5646_name(reference_track->media_info.language),
 					&reference_track->media_info.label);
+                
+                // Print the Role, currently using label
+                p = vod_sprintf(p, VOD_DASH_MANIFEST_ROLE, &reference_track->media_info.label);
 			}
 			else
 			{
